@@ -1,0 +1,43 @@
+services:
+  app:
+    image: evgd3v/fastapi-app:latest
+    container_name: fastapi-app
+    restart: always
+    networks:
+      - webnet
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - certbot-etc:/etc/letsencrypt
+      - certbot-www:/var/www/certbot
+    restart: always
+    networks:
+      - webnet
+    environment:
+      - TZ=Europe/Moscow
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-www:/var/www/certbot
+    command: certonly --webroot --webroot-path=/var/www/certbot --email ${LETSENCRYPT_EMAIL} --agree-tos --no-eff-email -d ${LETSENCRYPT_DOMAIN} -d www.${LETSENCRYPT_DOMAIN}
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge
+
+volumes:
+  certbot-etc:
+  certbot-www:

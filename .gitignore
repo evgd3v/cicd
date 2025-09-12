@@ -1,0 +1,43 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.env/
+.env
+
+
+# logs
+*.log
+*.tmp
+*.bak
+*.old
+
+# ide
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# docker
+*.dockerignore
+docker-compose.override.yml
+docker-compose.override.yaml
+*.dockerfile
+Dockerfile.*
+docker-compose.*.yml
+
+# nginx
+nginx/conf.d/default.conf
+sites-enabled/
+sites-available/
+
+# os
+certbot/certs/
+certbot/www/
+
+.DS_Store
+Thumbs.db
